@@ -1,7 +1,7 @@
 import { test, expect } from '../fixtures/fixtures';
 
 test.describe('Inventory', () => {
-  test('adding items updates the cart badge', async ({ loggedIn }) => {
+  test('adding items updates the cart badge', { tag: '@smoke' }, async ({ loggedIn }) => {
     await loggedIn.addToCart('Sauce Labs Backpack');
     await loggedIn.addToCart('Sauce Labs Bike Light');
     await expect(loggedIn.cartBadge).toHaveText('2');

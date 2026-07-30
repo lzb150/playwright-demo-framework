@@ -5,7 +5,7 @@ import { InventoryPage } from '../pages/inventory.page';
 type Fixtures = {
   loginPage: LoginPage;
   inventoryPage: InventoryPage;
-  /** Page already logged in as standard_user, landed on inventory. */
+  /** Inventory page opened with the standard_user session from storageState. */
   loggedIn: InventoryPage;
 };
 
@@ -21,9 +21,10 @@ export const test = base.extend<Fixtures>({
   inventoryPage: async ({ page }, use) => {
     await use(new InventoryPage(page));
   },
-  loggedIn: async ({ loginPage, inventoryPage }, use) => {
-    await loginPage.goto();
-    await loginPage.login(USERS.standard.username, USERS.standard.password);
+  // Session comes from the storageState written by the `setup` project —
+  // no UI login per test, just land on the page.
+  loggedIn: async ({ page, inventoryPage }, use) => {
+    await page.goto('/inventory.html');
     await use(inventoryPage);
   },
 });

@@ -1,7 +1,10 @@
 import { test, expect, USERS } from '../fixtures/fixtures';
 
+// Login tests must start unauthenticated — drop the project-level storageState.
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe('Login', () => {
-  test('standard user can log in', async ({ loginPage, inventoryPage }) => {
+  test('standard user can log in', { tag: '@smoke' }, async ({ loginPage, inventoryPage }) => {
     await loginPage.goto();
     await loginPage.login(USERS.standard.username, USERS.standard.password);
     await expect(inventoryPage.title).toHaveText('Products');
